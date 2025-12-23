@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Texto estilo Tenna</title>
+
+<style>
+  body {
+    background-color: black;
+    color: #1dfc00;
+    font-family: "Courier New", monospace;
+    font-size: 22px;
+    padding: 40px;
+  }
+
+  #texto {
+    white-space: pre-wrap;
+  }
+
+  /* CONTROLES */
+  .controles {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  .controles button {
+    background: #0b021b;
+    color: white;
+    border: 2px solid #00ff22;
+    padding: 10px 18px;
+    font-size: 18px;
+    margin: 5px;
+    cursor: pointer;
+    text-shadow: 0 0 10px #ff0000;
+  }
+
+  .controles button:hover {
+    background: #00c9ff;
+    color: black;
+  }
+
+  #volumen {
+    width: 200px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+
+<body>
+
+<p id="texto"></p>
+
+<div class="controles">
+  <button id="play">▶ PLAY</button>
+  <button id="pause">⏸ PAUSE</button><br>
+  <input type="range" min="0" max="1" step="0.01" id="volumen">
+</div>
+
+<audio id="musica" loop>
+  <source src="Misterio.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* AUDIO */
+const audio = document.getElementById("musica");
+audio.volume = 0.4;
+
+/* Reproducción con botones */
+document.getElementById("play").addEventListener("click", () => {
+  audio.play();
+});
+
+document.getElementById("pause").addEventListener("click", () => {
+  audio.pause();
+});
+
+/* Volumen */
+document.getElementById("volumen").addEventListener("input", (e) => {
+  audio.volume = e.target.value;
+});
+
+/* Primer clic inicia audio (política del navegador) */
+document.addEventListener("click", () => {
+  audio.play();
+}, { once: true });
+
+/* TEXTO ESTILO TENNA */
+const mensajes = [
+  "Hola.",
+  "Probando, existen progresiones pero aún no me convencen.",
+  "Sin embargo...",
+  "Interesante.",
+  "Muy interesante.",
+  "no.",
+  "no no no no",
+  "JAJAJAJAJA",
+  ":v."
+];
+
+let linea = 0;
+let letra = 0;
+const contenedor = document.getElementById("texto");
+
+function escribir() {
+  if (linea < mensajes.length) {
+    if (letra < mensajes[linea].length) {
+      contenedor.innerHTML += mensajes[linea].charAt(letra);
+      letra++;
+      setTimeout(escribir, Math.random() * 120 + 30);
+    } else {
+      contenedor.innerHTML += "\n\n";
+      letra = 0;
+      linea++;
+      setTimeout(escribir, 500);
+    }
+  }
+}
+
+escribir();
+</script>
+
+</body>
+</html>
